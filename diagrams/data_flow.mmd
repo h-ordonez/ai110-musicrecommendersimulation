@@ -1,0 +1,45 @@
+flowchart TD
+    subgraph Inputs["Input Data"]
+        CSV[("data/songs.csv")]
+        Prefs["User preferences<br/>(genre, mood, energy, danceability,<br/>valence, tempo, acousticness)"]
+    end
+
+    CSV --> LoadSongs["load_songs()"]
+    LoadSongs --> Songs["List of song dicts"]
+
+    Prefs -->|"functional path (main.py)"| UserPrefsDict["user_prefs dict"]
+    Prefs -->|"OOP path (tests)"| UserProfileObj["UserProfile dataclass"]
+    UserProfileObj --> ToDict["Recommender.recommend():<br/>convert UserProfile -> dict"]
+    ToDict --> UserPrefsDict
+
+    Songs --> ScoreEach["For each song..."]
+    UserPrefsDict --> ScoreEach
+    ScoreEach --> ScoreSong["score_song(user_prefs, song)"]
+
+    subgraph ScoringRule["Scoring rule (inside score_song)"]
+        Genre["genre_score = 1.0 if exact match else 0.0"]
+        Mood["mood_score = 1.0 if exact match else 0.0"]
+        Energy["energy_score = 1 - |diff|"]
+        Dance["dance_score = 1 - |diff|"]
+        Valence["valence_score = 1 - |diff|"]
+        Acoustic["acousticness_score = 1 - |diff|"]
+        Tempo["tempo_score = 1 - min(|diff| / MAX_TEMPO_DIFF, 1)"]
+        WeightedSum["weighted sum of all 7 scores,<br/>normalized by total weight"]
+        Genre --> WeightedSum
+        Mood --> WeightedSum
+        Energy --> WeightedSum
+        Dance --> WeightedSum
+        Valence --> WeightedSum
+        Acoustic --> WeightedSum
+        Tempo --> WeightedSum
+    end
+
+    ScoreSong --> ScoringRule
+    ScoringRule --> ScoreResult["(total_score, reasons list)"]
+
+    ScoreResult --> Ranking["Ranking rule:<br/>sort all scored songs descending,<br/>take top k"]
+
+    Ranking --> FunctionalOut["recommend_songs():<br/>[(song_dict, score, explanation), ...]"]
+    Ranking --> OOPOut["Recommender.recommend():<br/>[Song, Song, ...]"]
+
+    ScoreResult --> ExplainOut["Recommender.explain_recommendation():<br/>join(reasons)"]
