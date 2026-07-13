@@ -86,12 +86,38 @@ You can add more tests in `tests/test_recommender.py`.
 Paste a sample of your recommender's output here as a text block so a reader can see what it produces:
 
 ```
-# e.g.:
-# User profile: genre=indie, mood=chill, energy=low
-# Recommendations:
-#   1. ...
-#   2. ...
-#   3. ...
+Loaded 20 songs from data/songs.csv
+User preferences: {'genre': 'pop', 'mood': 'happy', 'energy': 0.8, 'danceability': 0.8, 'valence': 0.8, 'tempo_bpm': 120, 'acousticness': 0.2}
+
+Top recommendations:
+
+Rank Title                    Score   Explanation
+-------------------------------------------------
+1    Sunrise City             0.98    Matches favorite genre 'pop'; Matches favorite
+                                      mood 'happy'; Energy close to target (0.82 vs
+                                      0.80); Danceability close to target (0.79 vs
+                                      0.80); Valence close to target (0.84 vs 0.80);
+                                      Acousticness close to target (0.18 vs 0.20); Tempo
+                                      close to target (118 vs 120 bpm)
+2    Gym Hero                 0.76    Matches favorite genre 'pop'; Energy close to
+                                      target (0.93 vs 0.80); Danceability close to
+                                      target (0.88 vs 0.80); Valence close to target
+                                      (0.77 vs 0.80); Acousticness close to target (0.05
+                                      vs 0.20); Tempo close to target (132 vs 120 bpm)
+3    Rooftop Lights           0.74    Matches favorite mood 'happy'; Energy close to
+                                      target (0.76 vs 0.80); Danceability close to
+                                      target (0.82 vs 0.80); Valence close to target
+                                      (0.81 vs 0.80); Acousticness close to target (0.35
+                                      vs 0.20); Tempo close to target (124 vs 120 bpm)
+4    Pulse Overdrive          0.55    Energy close to target (0.90 vs 0.80);
+                                      Danceability close to target (0.90 vs 0.80);
+                                      Valence close to target (0.80 vs 0.80);
+                                      Acousticness close to target (0.05 vs 0.20); Tempo
+                                      close to target (128 vs 120 bpm)
+5    Night Drive Loop         0.52    Energy close to target (0.75 vs 0.80);
+                                      Danceability close to target (0.73 vs 0.80);
+                                      Acousticness close to target (0.22 vs 0.20); Tempo
+                                      close to target (110 vs 120 bpm)
 ```
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
