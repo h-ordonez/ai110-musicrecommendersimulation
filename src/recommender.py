@@ -1,3 +1,4 @@
+import csv
 from typing import List, Dict, Tuple, Optional
 from dataclasses import dataclass
 
@@ -46,14 +47,22 @@ class Recommender:
         # TODO: Implement explanation logic
         return "Explanation placeholder"
 
+FLOAT_FIELDS = ("energy", "tempo_bpm", "valence", "danceability", "acousticness")
+
 def load_songs(csv_path: str) -> List[Dict]:
     """
     Loads songs from a CSV file.
     Required by src/main.py
     """
-    # TODO: Implement CSV loading logic
-    print(f"Loading songs from {csv_path}...")
-    return []
+    with open(csv_path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        songs = []
+        for row in reader:
+            row["id"] = int(row["id"])
+            for field in FLOAT_FIELDS:
+                row[field] = float(row[field])
+            songs.append(row)
+    return songs
 
 def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
     """
